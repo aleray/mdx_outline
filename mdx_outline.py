@@ -154,7 +154,7 @@ class OutlineProcessor(Treeprocessor):
                 node.remove(child)
 
                 if self.move_attrib:
-                    for key, value in child.attrib.items():
+                    for key, value in list(child.attrib.items()):
                         section.set(key, value)
                         del child.attrib[key]
 
