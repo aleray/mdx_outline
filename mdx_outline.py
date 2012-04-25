@@ -12,8 +12,10 @@ attributes get moved to the wrapper.
 Usage
 -----
 
-    >>> import markdown
-    >>> src = """
+    >>> from markdown import markdown
+    >>> def test(src, options='', add_ext=[]):
+    ...     print(markdown(src.strip(), extensions=['outline{}'.format(options)] + add_ext))
+    >>> test("""
     ... # 1
     ... Section 1
     ... ## 1.1
@@ -26,9 +28,7 @@ Usage
     ... #### 1.2.2.1
     ... # 2
     ... Section 2
-    ... """.strip()
-    >>> html = markdown.markdown(src, ['sections'])
-    >>> print(html)
+    ... """)
     <section class="section1"><h1>1</h1>
     <p>Section 1</p>
     <section class="section2"><h2>1.1</h2>
@@ -45,14 +45,12 @@ Usage
 
 Divs instead of sections, custom class names:
 
-    >>> src = """
+    >>> test("""
     ... # Introduction
     ... # Body
     ... ## Subsection
     ... # Bibliography
-    ... """.strip()
-    >>> html = markdown.markdown(src, extensions=['sections(wrapper_tag=div, wrapper_cls=s%(LEVEL)d)'])
-    >>> print(html)
+    ... """, '(wrapper_tag=div, wrapper_cls=s%(LEVEL)d)')
     <div class="s1"><h1>Introduction</h1>
     </div><div class="s1"><h1>Body</h1>
     <div class="s2"><h2>Subsection</h2>
@@ -62,24 +60,20 @@ Divs instead of sections, custom class names:
 
 By default, the header attributes are moved to the wrappers
 
-    >>> src = """
+    >>> test("""
     ... # Introduction {: foo=bar }
-    ... """.strip()
-    >>> html = markdown.markdown(src, extensions=['attr_list', 'sections'])
-    >>> print(html)
+    ... """, add_ext=['attr_list'])
     <section class="section1" foo="bar"><h1>Introduction</h1>
     </section>
 
 
 Non consecutive headers shouldn't be a problem:
-    >>> src="""
+    >>> test("""
     ... # ONE
     ... ### TOO Deep
     ... ## Level 2
     ... # TWO
-    ... """.strip()
-    >>> html = markdown.markdown(src, extensions=['attr_list', 'sections'])
-    >>> print(html)
+    ... """)
     <section class="section1"><h1>ONE</h1>
     <section class="section3"><h3>TOO Deep</h3>
     </section><section class="section2"><h2>Level 2</h2>
