@@ -14,7 +14,7 @@ Usage
 
     >>> from markdown import markdown
     >>> def test(src, options='', add_ext=[]):
-    ...     print(markdown(src.strip(), extensions=['outline{}'.format(options)] + add_ext))
+    ...     print(markdown(src.strip(), extensions=['outline%s' % options] + add_ext))
     >>> test("""
     ... # 1
     ... Section 1
