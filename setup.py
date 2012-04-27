@@ -6,7 +6,7 @@ from setuptools import setup
 
 setup(
     name='mdx_outline',
-    version='1.0',
+    version='1.01',
     author='Alexandre Leray',
     author_email='alexandre@stdin.fr',
     description='Python-Markdown extension to wrap the document logical sections (as implied by h1-h6 headings)',
