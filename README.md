@@ -32,7 +32,7 @@ Usage
     ... # 2
     ... Section 2
     ... """.strip()
-    >>> html = markdown.markdown(src, ['sections'])
+    >>> html = markdown.markdown(src, ['outline'])
     >>> print(html)
     <section class="section1"><h1>1</h1>
     <p>Section 1</p>
@@ -56,7 +56,7 @@ Divs instead of sections, custom class names:
     ... ## Subsection
     ... # Bibliography
     ... """.strip()
-    >>> html = markdown.markdown(src, extensions=['sections(wrapper_tag=div, wrapper_cls=s%(LEVEL)d)'])
+    >>> html = markdown.markdown(src, extensions=['outline(wrapper_tag=div, wrapper_cls=s%(LEVEL)d)'])
     >>> print(html)
     <div class="s1"><h1>Introduction</h1>
     </div><div class="s1"><h1>Body</h1>
@@ -70,7 +70,7 @@ By default, the header attributes are moved to the wrappers
     >>> src = """
     ... # Introduction {: foo=bar }
     ... """.strip()
-    >>> html = markdown.markdown(src, extensions=['attr_list', 'sections'])
+    >>> html = markdown.markdown(src, extensions=['attr_list', 'outline'])
     >>> print(html)
     <section class="section1" foo="bar"><h1>Introduction</h1>
     </section>
@@ -83,7 +83,7 @@ Non consecutive headers shouldn't be a problem:
     ... ## Level 2
     ... # TWO
     ... """.strip()
-    >>> html = markdown.markdown(src, extensions=['attr_list', 'sections'])
+    >>> html = markdown.markdown(src, extensions=['attr_list', 'outline'])
     >>> print(html)
     <section class="section1"><h1>ONE</h1>
     <section class="section3"><h3>TOO Deep</h3>
