@@ -205,8 +205,8 @@ class OutlineExtension(Extension):
         md.treeprocessors.add('outline', ext, '_end')
 
 
-def makeExtension(config=None):
-    return OutlineExtension(config)
+def makeExtension(configs={}):
+    return OutlineExtension(configs)
 
 
 if __name__ == "__main__":
