@@ -63,11 +63,22 @@ Divs instead of sections, custom class names:
 By default, the header attributes are moved to the wrappers
 
     >>> src = """
-    ... # Introduction {: foo=bar }
+    ... # Introduction {: foo='bar' }
     ... """.strip()
     >>> html = markdown.markdown(src, extensions=['attr_list', 'outline'])
     >>> print(html)
     <section class="section1" foo="bar"><h1>Introduction</h1>
+    </section>
+
+
+Content-specified classes are added to settings wrapper class
+
+    >>> src = """
+    ... # Introduction {: class='extraclass' }
+    ... """.strip()
+    >>> html = markdown.markdown(src, extensions=['attr_list', 'outline'])
+    >>> print(html)
+    <section class="extraclass section1"><h1>Introduction</h1>
     </section>
 
 
@@ -131,6 +142,9 @@ from markdown import Extension
 from markdown.treeprocessors import Treeprocessor
 
 
+__version__ = "1.02"
+
+
 class OutlineProcessor(Treeprocessor):
     def process_nodes(self, node):
         s = []
@@ -146,17 +160,21 @@ class OutlineProcessor(Treeprocessor):
                 section = etree.SubElement(node, self.wrapper_tag)
                 section.append(child)
 
-                if '%(LEVEL)d' in self.wrapper_cls:
-                    wrapper_cls = self.wrapper_cls % {'LEVEL': depth}
-
-                section.attrib['class'] = child.attrib.get('class', wrapper_cls)
-
-                node.remove(child)
-
                 if self.move_attrib:
                     for key, value in child.attrib.items():
                         section.set(key, value)
                         del child.attrib[key]
+
+                node.remove(child)
+
+                if '%(LEVEL)d' in self.wrapper_cls:
+                    wrapper_cls = self.wrapper_cls % {'LEVEL': depth}
+
+                cls = section.attrib.get('class')
+                if cls:
+                    section.attrib['class'] = " ".join([cls, wrapper_cls])
+                else:
+                    section.attrib['class'] = wrapper_cls
 
                 contained = False
 
