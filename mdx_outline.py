@@ -142,8 +142,9 @@ class OutlineProcessor(Treeprocessor):
 
                 if '%(LEVEL)d' in self.wrapper_cls:
                     wrapper_cls = self.wrapper_cls % {'LEVEL': depth}
-
-                section.attrib['class'] = child.attrib.get('class', wrapper_cls)
+                
+                if self.wrapper_cls:
+                    section.attrib['class'] = child.attrib.get('class', wrapper_cls)
 
                 node.remove(child)
 
