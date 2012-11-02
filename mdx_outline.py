@@ -161,7 +161,7 @@ class OutlineProcessor(Treeprocessor):
                 section.append(child)
 
                 if self.move_attrib:
-                    for key, value in child.attrib.items():
+                    for key, value in list(child.attrib.items()):
                         section.set(key, value)
                         del child.attrib[key]
 
@@ -173,7 +173,7 @@ class OutlineProcessor(Treeprocessor):
                 cls = section.attrib.get('class')
                 if cls:
                     section.attrib['class'] = " ".join([cls, wrapper_cls])
-                else:
+                elif wrapper_cls: #no class attribute if wrapper_cls==''
                     section.attrib['class'] = wrapper_cls
 
                 contained = False
