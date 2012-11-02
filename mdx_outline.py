@@ -173,7 +173,7 @@ class OutlineProcessor(Treeprocessor):
                 cls = section.attrib.get('class')
                 if cls:
                     section.attrib['class'] = " ".join([cls, wrapper_cls])
-                else:
+                elif wrapper_cls: #no class attribute if wrapper_cls==''
                     section.attrib['class'] = wrapper_cls
 
                 contained = False
