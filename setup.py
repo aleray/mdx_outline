@@ -2,12 +2,11 @@
 
 
 from setuptools import setup
-import mdx_outline
 
 
 setup(
     name='mdx_outline',
-    version=mdx_outline.__version__,
+    version='1.02.1',
     author='Alexandre Leray',
     author_email='alexandre@stdin.fr',
     description='Python-Markdown extension to wrap the document logical sections (as implied by h1-h6 headings)',

@@ -142,7 +142,7 @@ from markdown import Extension
 from markdown.treeprocessors import Treeprocessor
 
 
-__version__ = "1.02"
+__version__ = "1.02.1"
 
 
 class OutlineProcessor(Treeprocessor):
