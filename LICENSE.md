@@ -1,6 +1,6 @@
 - Copyright 2011, 2012 The Active Archives contributors
 - Copyright 2011, 2012 Michael Murtaugh 
-- Copyright 2011, 2012 Alexandre Leray
+- Copyright 2011, 2012, 2017 Alexandre Leray
 
 All rights reserved.
 

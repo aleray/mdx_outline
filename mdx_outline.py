@@ -109,7 +109,7 @@ Copyright
 
 - 2011, 2012 [The active archives contributors](http://activearchives.org/)
 - 2011, 2012 [Michael Murtaugh](http://automatist.org/)
-- 2011, 2012 [Alexandre Leray](http://stdin.fr/)
+- 2011, 2012, 2017 [Alexandre Leray](http://stdin.fr/)
 
 All rights reserved.
 
@@ -142,7 +142,7 @@ from markdown import Extension
 from markdown.treeprocessors import Treeprocessor
 
 
-__version__ = "1.02.1"
+__version__ = "1.3.0"
 
 
 class OutlineProcessor(Treeprocessor):
@@ -173,7 +173,7 @@ class OutlineProcessor(Treeprocessor):
                 cls = section.attrib.get('class')
                 if cls:
                     section.attrib['class'] = " ".join([cls, wrapper_cls])
-                elif wrapper_cls: #no class attribute if wrapper_cls==''
+                elif wrapper_cls:  # no class attribute if wrapper_cls==''
                     section.attrib['class'] = wrapper_cls
 
                 contained = False
@@ -208,14 +208,13 @@ class OutlineProcessor(Treeprocessor):
 
 
 class OutlineExtension(Extension):
-    def __init__(self, configs):
+    def __init__(self, *args, **kwargs):
         self.config = {
             'wrapper_tag': ['section', 'Tag name to use, default: section'],
             'wrapper_cls': ['section%(LEVEL)d', 'Default CSS class applied to sections'],
             'move_attrib': [True, 'Move header attributes to the wrapper']
         }
-        for key, value in configs:
-            self.setConfig(key, value)
+        super(OutlineExtension, self).__init__(**kwargs)
 
     def extendMarkdown(self, md, md_globals):
         ext = OutlineProcessor(md)
