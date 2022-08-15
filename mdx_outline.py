@@ -137,10 +137,10 @@ See also
 
 
 import re
+from xml.etree import ElementTree
 
 from markdown import Extension
 from markdown.treeprocessors import Treeprocessor
-from markdown.util import etree
 
 __version__ = "1.3.0"
 
@@ -157,7 +157,7 @@ class OutlineProcessor(Treeprocessor):
             if match:
                 depth = int(match.group(1))
 
-                section = etree.SubElement(node, self.wrapper_tag)
+                section = ElementTree.SubElement(node, self.wrapper_tag)
                 section.append(child)
 
                 if self.move_attrib:
