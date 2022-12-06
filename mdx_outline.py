@@ -219,10 +219,10 @@ class OutlineExtension(Extension):
         }
         super(OutlineExtension, self).__init__(**kwargs)
 
-    def extendMarkdown(self, md, md_globals):
+    def extendMarkdown(self, md, md_globals=None):
         ext = OutlineProcessor(md)
         ext.config = self.config
-        md.treeprocessors.add("outline", ext, "_end")
+        md.treeprocessors.register(ext, "outline", 10)
 
 
 def makeExtension(configs={}):
