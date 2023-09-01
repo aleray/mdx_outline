@@ -137,7 +137,8 @@ See also
 
 
 import re
-from markdown.util import etree
+# from markdown.util import etree
+import xml.etree.ElementTree as etree
 from markdown import Extension
 from markdown.treeprocessors import Treeprocessor
 
@@ -216,10 +217,10 @@ class OutlineExtension(Extension):
         }
         super(OutlineExtension, self).__init__(**kwargs)
 
-    def extendMarkdown(self, md, md_globals):
+    def extendMarkdown(self, md):
         ext = OutlineProcessor(md)
         ext.config = self.config
-        md.treeprocessors.add('outline', ext, '_end')
+        md.treeprocessors.register(ext, 'outline', 500)
 
 
 def makeExtension(configs={}):
