@@ -27,7 +27,7 @@ Usage
     ... # 2
     ... Section 2
     ... """.strip()
-    >>> html = markdown.markdown(src, ['outline'])
+    >>> html = markdown.markdown(src, extensions=['outline'])
     >>> print(html)
     <section class="section1"><h1>1</h1>
     <p>Section 1</p>
@@ -142,7 +142,7 @@ from xml.etree import ElementTree
 from markdown import Extension
 from markdown.treeprocessors import Treeprocessor
 
-__version__ = "1.3.0"
+__version__ = "1.4.0"
 
 
 class OutlineProcessor(Treeprocessor):
