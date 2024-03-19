@@ -137,10 +137,10 @@ See also
 
 
 import re
-from markdown.util import etree
+from xml.etree import ElementTree
+
 from markdown import Extension
 from markdown.treeprocessors import Treeprocessor
-
 
 __version__ = "1.3.0"
 
@@ -148,7 +148,7 @@ __version__ = "1.3.0"
 class OutlineProcessor(Treeprocessor):
     def process_nodes(self, node):
         s = []
-        pattern = re.compile('^h(\d)')
+        pattern = re.compile("^h(\d)")
         wrapper_cls = self.wrapper_cls
 
         for child in list(node):
@@ -157,7 +157,7 @@ class OutlineProcessor(Treeprocessor):
             if match:
                 depth = int(match.group(1))
 
-                section = etree.SubElement(node, self.wrapper_tag)
+                section = ElementTree.SubElement(node, self.wrapper_tag)
                 section.append(child)
 
                 if self.move_attrib:
@@ -167,14 +167,14 @@ class OutlineProcessor(Treeprocessor):
 
                 node.remove(child)
 
-                if '%(LEVEL)d' in self.wrapper_cls:
-                    wrapper_cls = self.wrapper_cls % {'LEVEL': depth}
+                if "%(LEVEL)d" in self.wrapper_cls:
+                    wrapper_cls = self.wrapper_cls % {"LEVEL": depth}
 
-                cls = section.attrib.get('class')
+                cls = section.attrib.get("class")
                 if cls:
-                    section.attrib['class'] = " ".join([cls, wrapper_cls])
+                    section.attrib["class"] = " ".join([cls, wrapper_cls])
                 elif wrapper_cls:  # no class attribute if wrapper_cls==''
-                    section.attrib['class'] = wrapper_cls
+                    section.attrib["class"] = wrapper_cls
 
                 contained = False
 
@@ -199,9 +199,9 @@ class OutlineProcessor(Treeprocessor):
                     node.remove(child)
 
     def run(self, root):
-        self.wrapper_tag = self.config.get('wrapper_tag')[0]
-        self.wrapper_cls = self.config.get('wrapper_cls')[0]
-        self.move_attrib = self.config.get('move_attrib')[0]
+        self.wrapper_tag = self.config.get("wrapper_tag")[0]
+        self.wrapper_cls = self.config.get("wrapper_cls")[0]
+        self.move_attrib = self.config.get("move_attrib")[0]
 
         self.process_nodes(root)
         return root
@@ -210,16 +210,19 @@ class OutlineProcessor(Treeprocessor):
 class OutlineExtension(Extension):
     def __init__(self, *args, **kwargs):
         self.config = {
-            'wrapper_tag': ['section', 'Tag name to use, default: section'],
-            'wrapper_cls': ['section%(LEVEL)d', 'Default CSS class applied to sections'],
-            'move_attrib': [True, 'Move header attributes to the wrapper']
+            "wrapper_tag": ["section", "Tag name to use, default: section"],
+            "wrapper_cls": [
+                "section%(LEVEL)d",
+                "Default CSS class applied to sections",
+            ],
+            "move_attrib": [True, "Move header attributes to the wrapper"],
         }
         super(OutlineExtension, self).__init__(**kwargs)
 
-    def extendMarkdown(self, md, md_globals):
+    def extendMarkdown(self, md, md_globals=None):
         ext = OutlineProcessor(md)
         ext.config = self.config
-        md.treeprocessors.add('outline', ext, '_end')
+        md.treeprocessors.register(ext, "outline", 10)
 
 
 def makeExtension(configs={}):
@@ -228,4 +231,5 @@ def makeExtension(configs={}):
 
 if __name__ == "__main__":
     import doctest
+
     doctest.testmod()
