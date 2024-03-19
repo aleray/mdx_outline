@@ -151,7 +151,7 @@ class OutlineProcessor(Treeprocessor):
         pattern = re.compile('^h(\d)')
         wrapper_cls = self.wrapper_cls
 
-        for child in node.getchildren():
+        for child in list(node):
             match = pattern.match(child.tag.lower())
 
             if match:
